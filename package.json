@@ -1,0 +1,25 @@
+{
+  "name": "pixel-animation",
+  "version": "1.0.0",
+  "description": "Make some simple animation with pixel",
+  "main": "index.js",
+  "scripts": {
+    "parcel": "parcel index.html",
+    "build": "rm -rf dist/lib && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lud0do1202/pixel-animation.git"
+  },
+  "keywords": [],
+  "author": "Lud0do1202 (TRAINA Ludo) <ludo.traina@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Lud0do1202/pixel-animation/issues"
+  },
+  "homepage": "https://github.com/Lud0do1202/pixel-animation#readme",
+  "dependencies": {
+    "parcel": "^2.8.3"
+  }
+}
