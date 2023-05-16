@@ -6,7 +6,6 @@ export class PixelAnimation {
     private rows: number = 0;
     private cols: number = 0;
     private interval: number;
-    private gridInit: boolean = false;
 
     constructor(private container: HTMLDivElement, private cellSettings: CellSettings) {}
 
@@ -26,14 +25,15 @@ export class PixelAnimation {
         this.frames.push(frame);
     }
 
-    initGrid() {
+    private initGrid() {
         // Style
         this.container.style.display = 'grid';
-        this.container.style.gridTemplateRows = `repeat(${this.rows}, ${this.cellSettings.height}px)`;
-        this.container.style.gridTemplateColumns = `repeat(${this.cols}, ${this.cellSettings.width}px)`;
-        this.container.style.gap = `${this.cellSettings.gapRows}px ${this.cellSettings.gapColumns}px`;
+        this.container.style.gridTemplateRows = `repeat(${this.rows}, ${this.cellSettings.height})`;
+        this.container.style.gridTemplateColumns = `repeat(${this.cols}, ${this.cellSettings.width})`;
+        this.container.style.gap = `${this.cellSettings.gapRows} ${this.cellSettings.gapColumns}`;
 
         // Create the grid
+        let computedWidth = -1;
         for (let i = 0; i < this.rows; i++) {
             for (let j = 0; j < this.cols; j++) {
                 const cell = document.createElement('div');
@@ -42,14 +42,11 @@ export class PixelAnimation {
                 this.container.appendChild(cell);
             }
         }
-
-        // Grid init
-        this.gridInit = true;
     }
 
     start(timeout: number): void {
         // Init grid
-        if (!this.gridInit) this.initGrid();
+        this.initGrid();
 
         // Select first frame
         this.iFrame = 0;

@@ -558,12 +558,12 @@ function hmrAccept(bundle, id) {
 
 },{}],"lGvzx":[function(require,module,exports) {
 var _indexJs = require("./dist/lib/index.js");
-const container = document.querySelector("#pixels");
-const roundabout = new (0, _indexJs.PixelAnimation)(container, {
-    width: 50,
-    height: 50,
-    gapRows: 10,
-    gapColumns: 10,
+const roundaboutContainer = document.querySelector("#roundabout");
+const roundabout = new (0, _indexJs.PixelAnimation)(roundaboutContainer, {
+    width: "50px",
+    height: "50px",
+    gapRows: "10px",
+    gapColumns: "10px",
     color: "#ff000080"
 });
 roundabout.addFrame([
@@ -585,6 +585,176 @@ roundabout.addFrame([
     ".X"
 ]);
 roundabout.start(200);
+const jumpContainer = document.querySelector("#jump");
+const jump = new (0, _indexJs.PixelAnimation)(jumpContainer, {
+    width: "5%",
+    height: "30px",
+    gapRows: "2px",
+    gapColumns: "2px",
+    color: "#000"
+});
+jump.addFrame([
+    "",
+    "",
+    "",
+    "",
+    ""
+]);
+jump.addFrame([
+    "",
+    "",
+    "X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "",
+    ".X",
+    "X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "..X",
+    ".X",
+    "X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "..X",
+    ".X.X",
+    "X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "..X",
+    ".X.X",
+    "X...X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "..X",
+    ".X.X",
+    "....X",
+    ".....X",
+    ""
+]);
+jump.addFrame([
+    "..X",
+    "...X",
+    "....X",
+    ".....X",
+    "......X"
+]);
+jump.addFrame([
+    "",
+    "...X",
+    "....X",
+    ".....X.X",
+    "......X"
+]);
+jump.addFrame([
+    "",
+    "",
+    "....X...X",
+    ".....X.X",
+    "......X"
+]);
+jump.addFrame([
+    "",
+    ".........X",
+    "........X",
+    ".....X.X",
+    "......X"
+]);
+jump.addFrame([
+    "..........X",
+    ".........X",
+    "........X",
+    ".......X",
+    "......X"
+]);
+jump.addFrame([
+    "..........X",
+    ".........X.X",
+    "........X",
+    ".......X",
+    ""
+]);
+jump.addFrame([
+    "..........X",
+    ".........X.X",
+    "........X...X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "..........X",
+    ".........X.X",
+    "............X",
+    ".............X",
+    ""
+]);
+jump.addFrame([
+    "..........X",
+    "...........X",
+    "............X",
+    ".............X",
+    "..............X"
+]);
+jump.addFrame([
+    "",
+    "...........X",
+    "............X",
+    ".............X.X",
+    "..............X"
+]);
+jump.addFrame([
+    "",
+    "",
+    "............X...X",
+    ".............X.X",
+    "..............X"
+]);
+jump.addFrame([
+    "",
+    "",
+    "................X",
+    ".............X.X",
+    "..............X"
+]);
+jump.addFrame([
+    "",
+    "",
+    "................X",
+    "...............X",
+    "..............X"
+]);
+jump.addFrame([
+    "",
+    "",
+    "................X",
+    "...............X",
+    ""
+]);
+jump.addFrame([
+    "",
+    "",
+    "................X",
+    "",
+    ""
+]);
+jump.addFrame([
+    "",
+    "",
+    "",
+    "",
+    ""
+]);
+jump.start(200);
 
 },{"./dist/lib/index.js":"CnCET"}],"CnCET":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
@@ -604,7 +774,6 @@ var PixelAnimation = /** @class */ function() {
         this.iFrame = 0;
         this.rows = 0;
         this.cols = 0;
-        this.gridInit = false;
     }
     /**
      * @param frame The strings to make one frame --> '.' = empty cell
@@ -622,23 +791,26 @@ var PixelAnimation = /** @class */ function() {
     PixelAnimation.prototype.initGrid = function() {
         // Style
         this.container.style.display = "grid";
-        this.container.style.gridTemplateRows = "repeat(".concat(this.rows, ", ").concat(this.cellSettings.height, "px)");
-        this.container.style.gridTemplateColumns = "repeat(".concat(this.cols, ", ").concat(this.cellSettings.width, "px)");
-        this.container.style.gap = "".concat(this.cellSettings.gapRows, "px ").concat(this.cellSettings.gapColumns, "px");
+        this.container.style.gridTemplateRows = "repeat(".concat(this.rows, ", ").concat(this.cellSettings.height, ")");
+        this.container.style.gridTemplateColumns = "repeat(".concat(this.cols, ", ").concat(this.cellSettings.width, ")");
+        this.container.style.gap = "".concat(this.cellSettings.gapRows, " ").concat(this.cellSettings.gapColumns);
         // Create the grid
+        var computedWidth = -1;
         for(var i = 0; i < this.rows; i++)for(var j = 0; j < this.cols; j++){
             var cell = document.createElement("div");
             cell.setAttribute("row", i.toString());
             cell.setAttribute("col", j.toString());
             this.container.appendChild(cell);
+            // Calculate the compteWidth
+            if (computedWidth === -1) computedWidth = cell.offsetWidth;
         }
-        // Grid init
-        this.gridInit = true;
+        // Height same as width
+        if (!this.cellSettings.height) this.cellSettings.height = computedWidth + "px";
     };
     PixelAnimation.prototype.start = function(timeout) {
         var _this = this;
         // Init grid
-        if (!this.gridInit) this.initGrid();
+        this.initGrid();
         // Select first frame
         this.iFrame = 0;
         // Start the animation

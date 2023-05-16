@@ -1,7 +1,7 @@
 export interface CellSettings {
-    width: number;
-    height: number;
-    gapColumns: number;
-    gapRows: number;
+    width: string;
+    height: string;
+    gapColumns: string;
+    gapRows: string;
     color: string;
 }
